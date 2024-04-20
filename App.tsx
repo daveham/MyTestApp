@@ -1,12 +1,5 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
-
 import React from 'react';
-import type {PropsWithChildren} from 'react';
+import type { PropsWithChildren } from 'react';
 import {
   SafeAreaView,
   ScrollView,
@@ -16,6 +9,7 @@ import {
   useColorScheme,
   View,
 } from 'react-native';
+import { Button, Portal, Snackbar } from 'react-native-paper';
 
 import {
   Colors,
@@ -29,7 +23,7 @@ type SectionProps = PropsWithChildren<{
   title: string;
 }>;
 
-function Section({children, title}: SectionProps): React.JSX.Element {
+function Section({ children, title }: SectionProps): React.JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
   return (
     <View style={styles.sectionContainer}>
@@ -62,6 +56,12 @@ function App(): React.JSX.Element {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
 
+  const handleButtonPress = () => setSnackbarVisible(!snackbarVisible);
+
+  const [snackbarVisible, setSnackbarVisible] = React.useState(false);
+
+  const handleDismissSnackbar = () => setSnackbarVisible(false);
+
   return (
     <SafeAreaView style={backgroundStyle}>
       <StatusBar
@@ -76,6 +76,19 @@ function App(): React.JSX.Element {
           style={{
             backgroundColor: isDarkMode ? Colors.black : Colors.white,
           }}>
+          <View style={styles.buttonContainer}>
+            <Button mode="contained" onPress={handleButtonPress}>
+              {snackbarVisible ? 'Hide ' : 'Show '}Snackbar
+            </Button>
+          </View>
+          <Portal>
+            <Snackbar
+              duration={snackbarVisible ? 3000 : 0}
+              visible={snackbarVisible}
+              onDismiss={handleDismissSnackbar}>
+              You tapped the test button.
+            </Snackbar>
+          </Portal>
           <Section title="Step One">
             Edit <Text style={styles.highlight}>App.tsx</Text> to change this
             screen and then come back to see your edits.
@@ -97,6 +110,12 @@ function App(): React.JSX.Element {
 }
 
 const styles = StyleSheet.create({
+  buttonContainer: {
+    marginTop: 8,
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+  },
   sectionContainer: {
     marginTop: 32,
     paddingHorizontal: 24,
