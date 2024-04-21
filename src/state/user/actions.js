@@ -1,5 +1,10 @@
 import { createActions } from 'redux-actions';
 
-export const { requestUser } = createActions({
-  REQUEST_USER: userId => userId,
+function identity(value) {
+  return value;
+}
+
+export const { requestUser, receiveUser } = createActions({
+  REQUEST_USER: identity,
+  RECEIVE_USER: identity,
 });

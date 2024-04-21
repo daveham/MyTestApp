@@ -4,11 +4,13 @@ import { PaperProvider } from 'react-native-paper';
 import { Provider as ReduxProvider } from 'react-redux';
 import { name as appName } from './app.json';
 import App from './src/App';
-import createStore from './src/state/configureStore';
+import createStore, { runSagas } from './src/state/configureStore';
+import sagas from './src/sagas';
+
+const store = createStore();
+runSagas(sagas);
 
 export default function Main() {
-  const store = createStore();
-
   return (
     <ReduxProvider store={store}>
       <PaperProvider>

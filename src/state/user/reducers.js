@@ -1,13 +1,13 @@
 import { combineReducers } from 'redux';
 import { handleActions } from 'redux-actions';
 
-import { requestUser } from './actions';
+import { receiveUser } from './actions';
 
 const INITIAL_STATE = '';
 
 export const userId = handleActions(
   {
-    [requestUser]: (state, { payload, meta }) => {
+    [receiveUser]: (state, { payload, meta }) => {
       return payload;
     },
   },
