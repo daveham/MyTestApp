@@ -9,6 +9,7 @@ import {
   useColorScheme,
   View,
 } from 'react-native';
+import { useDispatch, useSelector } from 'react-redux';
 import { Button, Portal, Snackbar } from 'react-native-paper';
 
 import {
@@ -18,6 +19,9 @@ import {
   LearnMoreLinks,
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
+
+import { requestUser } from './state/user/actions';
+import { userIdSelector } from './state/user/selectors';
 
 type SectionProps = PropsWithChildren<{
   title: string;
@@ -52,11 +56,18 @@ function Section({ children, title }: SectionProps): React.JSX.Element {
 function App(): React.JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
 
+  const dispatch = useDispatch();
+
+  const userId = useSelector(userIdSelector);
+
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
 
-  const handleButtonPress = () => setSnackbarVisible(!snackbarVisible);
+  const handleButtonPress = () => {
+    dispatch(requestUser('John Smith'));
+    setSnackbarVisible(!snackbarVisible);
+  };
 
   const [snackbarVisible, setSnackbarVisible] = React.useState(false);
 
@@ -78,7 +89,7 @@ function App(): React.JSX.Element {
           }}>
           <View style={styles.buttonContainer}>
             <Button mode="contained" onPress={handleButtonPress}>
-              {snackbarVisible ? 'Hide ' : 'Show '}Snackbar
+              {snackbarVisible ? 'Hide ' : 'Show '}Snackbar {userId}
             </Button>
           </View>
           <Portal>
