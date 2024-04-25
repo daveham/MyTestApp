@@ -7,7 +7,7 @@ const INITIAL_STATE = '';
 
 export const userId = handleActions(
   {
-    [receiveUser]: (state, { payload, meta }) => {
+    [receiveUser]: (state, { payload, _meta }) => {
       return payload;
     },
   },
