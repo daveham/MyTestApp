@@ -8,6 +8,7 @@ import App from './src/App';
 import createStore, { runSagas } from './src/state/configureStore';
 import sagas from './src/sagas';
 import { name as appName } from './app.json';
+import('./ReactotronConfig');
 
 const store = createStore();
 runSagas(sagas);

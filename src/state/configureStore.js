@@ -1,5 +1,7 @@
-import { applyMiddleware, legacy_createStore } from 'redux';
+import { applyMiddleware, compose, legacy_createStore } from 'redux';
 import createSagaMiddleware from 'redux-saga';
+
+import Reactotron from '../../ReactotronConfig';
 
 import rootReducer from './reducers';
 
@@ -10,7 +12,20 @@ export function runSagas(sagas) {
 }
 
 export default function createStore(_initialState) {
-  sagaMiddleware = createSagaMiddleware();
+  if (__DEV__ && process.env.NODE_ENV !== 'test') {
+    sagaMiddleware = createSagaMiddleware({
+      sagaMonitor: Reactotron.createSagaMonitor(),
+    });
 
-  return legacy_createStore(rootReducer, applyMiddleware(sagaMiddleware));
+    const enhancedMiddleware = compose(
+      applyMiddleware(sagaMiddleware),
+      Reactotron.createEnhancer(),
+    );
+
+    return legacy_createStore(rootReducer, enhancedMiddleware);
+  } else {
+    sagaMiddleware = createSagaMiddleware();
+
+    return legacy_createStore(rootReducer, applyMiddleware(sagaMiddleware));
+  }
 }
