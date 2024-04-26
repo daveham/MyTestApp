@@ -1,6 +1,8 @@
 {
   "name": "MyTestApp",
   "version": "0.0.1",
+  "description": "My common starting point for a react native app.",
+  "author": "Dave Hamilton",
   "private": true,
   "scripts": {
     "android": "react-native run-android",
